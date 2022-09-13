@@ -12,7 +12,7 @@ Snake::Snake(QWidget *parent) : QWidget(parent)
   }
 }
 //방향키로 뱀의 이동 설정
-inline void Snake::DeteDirMove(char key, Snakecoor &nexthead)
+inline void Snake::snakemove(char key, Snakecoor &nexthead)
 {
   switch (key)
   {
@@ -37,10 +37,10 @@ inline void Snake::DeteDirMove(char key, Snakecoor &nexthead)
 void Snake::Move(char key)
 {
   Snakecoor nexthead;
-  DeteDirMove(key, nexthead);
+  snakemove(key, nexthead);
   snakevec.insert(snakevec.begin(), nexthead);
 }
-
+//스네이크 길이 초기화와 게임의 초기화
 void Snake::Reset()
 {
   snakevec.clear();

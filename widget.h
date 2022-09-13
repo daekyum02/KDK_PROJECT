@@ -39,6 +39,10 @@ public:
 private slots:
     void on_lineEdit_returnPressed();
 
+    void on_startbot_2_clicked();
+
+    void on_help_clicked();
+
 private:
 };
 #endif // WIDGET_H

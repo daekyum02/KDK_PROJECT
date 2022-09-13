@@ -9,7 +9,7 @@ Widget::Widget(QWidget *parent)
     setFixedSize(1000,600);
 
     ui->label->setFont(QFont("Sitka Heading Semibold", 20, QFont::Bold, false));
-    ui->label_2->setFont(QFont("Sitka Heading Semibold", 16, QFont::Bold, false));
+    ui->label_2->setFont(QFont("Sitka Heading Semibold", 24, QFont::Bold, false));
     ui->label_2->setText("SPEED : ");
     ui->horizontalSlider->setValue(200 >> 2);
 
@@ -18,15 +18,25 @@ Widget::Widget(QWidget *parent)
     {
         timerspeed = ui->horizontalSlider->value() << 2;
 
-        if(timerspeed>=40&&timerspeed<=200)
+        if(timerspeed>=40&&timerspeed<=100)
         {
-            ui->label_3->setFont(QFont("Sitka Heading Semibold",13));
-            ui->label_3->setText("High-Level");
+            ui->label_3->setFont(QFont("Sitka Heading Semibold",16));
+            ui->label_3->setText("Level_3");
+        }
+        else if(timerspeed>100&&timerspeed<=200)
+        {
+            ui->label_3->setFont(QFont("Sitka Heading Semibold",16));
+            ui->label_3->setText("Level_2");
+        }
+        else if(timerspeed>200&&timerspeed<=300)
+        {
+            ui->label_3->setFont(QFont("Sitka Heading Semibold",16));
+            ui->label_3->setText("Level_1");
         }
         else
         {
-            ui->label_3->setFont(QFont("Sitka Heading Semibold",13));
-            ui->label_3->setText("Low-Level");
+            ui->label_3->setFont(QFont("Sitka Heading Semibold",16));
+            ui->label_3->setText("Beginner mode");
         }
     });
 
@@ -36,6 +46,8 @@ Widget::Widget(QWidget *parent)
     ui->startbot->setFont(QFont("Sitka Heading Semibold",25));
     ui->startbot->setText("START");
 
+    ui->help->setFont(QFont("Sitka Heading Semibold",25));
+    ui->help->setText("HELP");
     //reset
     connect(ui->resetbot,QPushButton::clicked,[=]()
     {
@@ -103,7 +115,6 @@ Widget::Widget(QWidget *parent)
     });
    ui->label->setText(QString("SCORE : %1").arg(score));
 }
-
 
 void Widget::GameOver()
 {
@@ -194,8 +205,6 @@ void Widget::keyPressEvent(QKeyEvent *ev)
       if(key == 'a') break;
       key = 'd';
       bugflag = true; break;
-  case Qt::Key_Space:
-      timer->stop(); break;
   default:
       timer->start(timerspeed);
   }
@@ -209,5 +218,25 @@ Widget::~Widget()
 void Widget::on_lineEdit_returnPressed()
 {
        Target_score=ui->lineEdit->text().toInt();
+}
+
+void Widget::on_help_clicked()
+{
+    QLabel*help=new QLabel();
+    help->setFont(QFont("맑은 고딕",15));
+    help->setText("                                                          < 도움말 >\n\n"
+                  " 1. 뱀의 이동은 w-s-a-d 키로 조종을 하면 됩니다. \n"
+                  "\n 2. start버튼을 누르면 게임이 시작됩니다. 게임이 종료되면 restart버튼을 통해 재시작을 할 수 있습니다.\n"
+                  "\n 3. 게임이 종료되는 조건 : \n"
+                  "   Ⅰ. 목표점수를 달성해 승리. \n"
+                  "   Ⅱ. 벽 혹은 뱀의 몸을 부딪히면 패배.\n"
+                  "   Ⅲ. 스코어가 0보다 작으면 패배.\n"
+                  "\n 4. 빨간색 먹이은 보너스입니다, 먹으면 뱀의 길이가 길어져요.\n"
+                  "\n 5. 초록색 먹이는 마이너스 먹이 입니다, 일전 시간이 지나면 위치를 바꾸게 됩니다.\n"
+                  "    또한, 마이너스 먹이의 특성상 스코어와 뱀의 길이를 줄여줍니다, 하지만 상황에 \n    맞게 사용하는게 좋을 것입니다.\n"
+                  "\n 6. 유저가 목표점수를 입력하기 전에는 목표점수의 초기값은 10 입니다.\n"
+                  "\n 7. 속도는 총4단계로 이루어 집니다, level3 ,level2, level1 그리고 Beginner mode가 있습니다.\n\n"
+                  "\n\n\n\n");
+    help->show();
 }
 

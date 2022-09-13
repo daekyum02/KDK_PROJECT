@@ -22,7 +22,7 @@ public:
 
   void Move(char key);
 
-  void DeteDirMove(char key, Snakecoor &nexthead);
+  void snakemove(char key, Snakecoor &nexthead);
 
   void Reset();
 
