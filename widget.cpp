@@ -142,7 +142,9 @@ void Widget::GameOver()
   for(int i = 1; i < snake.snakevec.size(); i++)
   {
       if(snake.snakevec.at(0).x == snake.snakevec.at(i).x && snake.snakevec.at(0).y == snake.snakevec.at(i).y)
+      {
           gameflag = true, timer->stop();
+      }
   }
 }
 
@@ -182,7 +184,14 @@ void Widget::paintEvent(QPaintEvent *)
   {
       QFont font("Sitka Heading Semibold", 80, QFont::Bold, false);
       painter.setFont(font);
-      painter.drawText(QRect(240, 200, 1000, 500), "Game Over");
+      painter.drawText(QRect(240, 200, 1000, 500), "Game Over\n");
+      QFont font1("Sitka Heading Semibold", 25, QFont::Bold, false);
+      painter.setFont(font1);
+      painter.drawText(QRect(240, 300, 500, 500),"User name : ");
+      painter.drawText(QRect(450, 300, 500, 500),usernameoutput);
+//      ui->namelabel->setText(usernameoutput);
+
+
   }
   //game에 승리하면 gamewin이라는 문구 출력
   if(gamewin)
@@ -250,3 +259,15 @@ void Widget::on_help_clicked()
                   "\n\n\n\n");
     help->show();
 }
+
+void Widget::on_name_returnPressed()
+{
+    std::string username=ui->name->text().toStdString();
+    usernameinput=&username[0];
+    qDebug()<<usernameinput;
+    for(int i = 0; usernameinput[i]!='\0'; i++)
+    {
+        usernameoutput[i] = usernameinput[i];
+    }
+}
+

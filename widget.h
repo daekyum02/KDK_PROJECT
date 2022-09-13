@@ -36,12 +36,16 @@ public:
     int timercount=0;
     int clicktime=1;
     int Target_score=10;
+    char*usernameinput;
+    char usernameoutput[4];
 private slots:
     void on_lineEdit_returnPressed();
 
     void on_startbot_2_clicked();
 
     void on_help_clicked();
+
+    void on_name_returnPressed();
 
 private:
 };
