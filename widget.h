@@ -38,6 +38,7 @@ public:
     int Target_score=10;
     char*usernameinput;
     char usernameoutput[4];
+    int timermode=0;
 private slots:
     void on_lineEdit_returnPressed();
 

@@ -1,5 +1,7 @@
 #include "widget.h"
 #include "ui_widget.h"
+#include <chrono>
+#include <thread>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -66,6 +68,7 @@ Widget::Widget(QWidget *parent)
         ui->horizontalSlider->setValue(200 >> 2);
         gameflag= false;
         gamewin = false;
+        ui->scorelabel->setText(" ");
     });
 
 
@@ -152,11 +155,8 @@ void Widget::paintEvent(QPaintEvent *)
 {
   //bonus 출력
   QPainter painter(this);
-
   QBrush brush1(Qt::red);
-
   painter.setBrush(brush1);
-
   painter.drawRect(QRect(food.getfoodX(),food.getfoodY(),25,25));
   //minus bonus 출력
   QBrush minus(Qt::green);
