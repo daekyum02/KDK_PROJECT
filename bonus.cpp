@@ -3,6 +3,7 @@
 Bonus::Bonus(QWidget *parent) : QWidget(parent)
 {
    randfood();
+   randminus();
 }
 //보너스의 좌표값 랜덤으로 출력
 void Bonus::randfood()
@@ -15,6 +16,7 @@ void Bonus::randfood()
 
 void Bonus::randminus()
 {
+    //범위를 randfood와 같이 설정하면 겹치는 경우가 발생함으로 rand범위를 다르게 설정
     srand((unsigned)time(NULL));
     minus_x = (rand() % 23) * 25;
     minus_y = (rand() % 23 )* 25;

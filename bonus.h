@@ -8,8 +8,8 @@ class Bonus: public QWidget
 public:
     int food_x = 0;
     int food_y = 0;
-    int minus_x = 100;
-    int minus_y = 100;
+    int minus_x = 0;
+    int minus_y = 0;
     explicit Bonus(QWidget *parent = nullptr);
 
     void randfood();

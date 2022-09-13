@@ -6,16 +6,21 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    //ui창 크기 고정
     setFixedSize(1000,600);
-
+    //각 label에 필요한 내용 출력
     ui->label->setFont(QFont("Sitka Heading Semibold", 20, QFont::Bold, false));
     ui->label_2->setFont(QFont("Sitka Heading Semibold", 24, QFont::Bold, false));
     ui->label_2->setText("SPEED : ");
+    //슬라이드바의 초기상태 설정
+    //200이 슬라이드바의 중간
     ui->horizontalSlider->setValue(200 >> 2);
 
     //속도 조절 바
+    //조절된 바의 value값에 따라 속도값(level) 설정
     connect(ui->horizontalSlider,QSlider::valueChanged,[=]()
     {
+        //timerspeed는 timer의 진행 주비
         timerspeed = ui->horizontalSlider->value() << 2;
 
         if(timerspeed>=40&&timerspeed<=100)
@@ -63,6 +68,7 @@ Widget::Widget(QWidget *parent)
         gamewin = false;
     });
 
+
     //start
     connect(ui->startbot,QPushButton::clicked,[=]()
     {
@@ -70,13 +76,14 @@ Widget::Widget(QWidget *parent)
         timer->start(timerspeed);
         connect(timer,&QTimer::timeout,[=]()
         {
-            //버그 예외처리
+            //minus food
             if(food.getMinusX() == snake.snakevec.at(0).x && food.getMinusY() == snake.snakevec.at(0).y)
             {
                 timercount=0;
                 score--;
                 snake.snakevec.pop_back();
                 food.randminus();
+                //버그 예외처리
                 if((food.getfoodX()==food.getMinusX())&&(food.getfoodY()==food.getMinusY()))
                 {
                 food.randfood();
@@ -96,23 +103,29 @@ Widget::Widget(QWidget *parent)
             ui->label->setText(QString("SCORE : %1").arg(score));
             }
             //timercount
+            //timercount의 값이100이 될 때 마다 0으로 초기화 및 minus food의 위치를 랜덤으로 위치시킨다
             if(timercount==100)
             {
                 food.randminus();
                 timercount=0;
             }
+            //타겟 스코어의 값이 획득한 스코어의 값과 같으면 gamewin을 true로 전환, 그리고 타이머의 진행을 멈춘다
             if(score==Target_score)
             {
+                //gamewin변수 bool형
                gamewin = true,
                timer->stop();
             }
+            //스코어의 값이 0보다 작으면 gamefalg를  true로 전환, 그리고 타이머의 진행을 멈춘다
             if(score<0)
             {
+                //gameover변수 bool형
                 gameflag = true;
                 timer->stop();
             }
         });
     });
+    //초기 score ui label에 출력
    ui->label->setText(QString("SCORE : %1").arg(score));
 }
 
@@ -132,6 +145,7 @@ void Widget::GameOver()
           gameflag = true, timer->stop();
   }
 }
+
 void Widget::paintEvent(QPaintEvent *)
 {
   //bonus 출력
@@ -144,36 +158,32 @@ void Widget::paintEvent(QPaintEvent *)
   painter.drawRect(QRect(food.getfoodX(),food.getfoodY(),25,25));
   //minus bonus 출력
   QBrush minus(Qt::green);
-
+  painter.setRenderHint(QPainter::Antialiasing);
   painter.setBrush(minus);
-
   painter.drawEllipse(QRect(food.getMinusX(),food.getMinusY(),25,25));
   //스네이크 몸출력
   QBrush brush2(Qt::blue);
   painter.setBrush(brush2);
+
   for(auto snakenodei : snake.snakevec)
-
       (snakenodei.x == snake.snakevec.at(0).x && snakenodei.y == snake.snakevec.at(0).y) ?
-
-      painter.setRenderHint(QPainter::Antialiasing), painter.drawEllipse(QPoint(snakenodei.x + 12,snakenodei.y + 12),12,12):
-
-      painter.drawRect(QRect(snakenodei.x,snakenodei.y,25,25));
-
+       painter.setRenderHint(QPainter::Antialiasing), painter.drawEllipse(QPoint(snakenodei.x + 12,snakenodei.y + 12),12,12):
+       painter.drawRect(QRect(snakenodei.x,snakenodei.y,25,25));
   bugflag = false;
   //벽출력
   QBrush brush3(QColor(128, 125, 0));
   painter.setBrush(brush3);
-
   for(int i = 0; i < 24; i++)
         painter.drawRect(QRect(25 * 25, i * 25, 25, 25));
 
-  //game이 종료되면 game over문구 출력
+  //game에 패배하게되면 game over문구 출력
   if(gameflag)
   {
       QFont font("Sitka Heading Semibold", 80, QFont::Bold, false);
       painter.setFont(font);
       painter.drawText(QRect(240, 200, 1000, 500), "Game Over");
   }
+  //game에 승리하면 gamewin이라는 문구 출력
   if(gamewin)
   {
       QFont font("Sitka Heading Semibold", 80, QFont::Bold, false);
@@ -181,7 +191,7 @@ void Widget::paintEvent(QPaintEvent *)
       painter.drawText(QRect(240, 200, 1000, 500), "You Win");
   }
 }
-
+//키보드 입력값 받아서 스네아크 이동시키기
 void Widget::keyPressEvent(QKeyEvent *ev)
 {
   if(bugflag)
@@ -214,12 +224,12 @@ Widget::~Widget()
 {
     delete ui;
 }
-
+//타겟스코어 값을 line_edit을 통해 입력받는다
 void Widget::on_lineEdit_returnPressed()
 {
        Target_score=ui->lineEdit->text().toInt();
 }
-
+//help버튼을 클릭하면 도움말 출력창 띄우기
 void Widget::on_help_clicked()
 {
     QLabel*help=new QLabel();
