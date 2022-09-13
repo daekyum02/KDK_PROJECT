@@ -189,9 +189,9 @@ void Widget::paintEvent(QPaintEvent *)
       painter.setFont(font1);
       painter.drawText(QRect(240, 300, 500, 500),"User name : ");
       painter.drawText(QRect(450, 300, 500, 500),usernameoutput);
-//      ui->namelabel->setText(usernameoutput);
-
-
+      painter.drawText(QRect(240,300,500,500),"\nScore : ");
+      ui->scorelabel->setFont(QFont("Sitka Heading Semibold",25));
+      ui->scorelabel->setNum(score);
   }
   //game에 승리하면 gamewin이라는 문구 출력
   if(gamewin)
