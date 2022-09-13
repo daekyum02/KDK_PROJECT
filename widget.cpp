@@ -164,8 +164,9 @@ void Widget::paintEvent(QPaintEvent *)
   //스네이크 몸출력
   QBrush brush2(Qt::blue);
   painter.setBrush(brush2);
-
+  //auto타입을 사용하여 뒤에있는 snake.snakevec의 형식과 같게 만든다
   for(auto snakenodei : snake.snakevec)
+      //삼항연산자를 통해 할당된 데이터 값을 기반으로 스네이크의 길이를 출력한다
       (snakenodei.x == snake.snakevec.at(0).x && snakenodei.y == snake.snakevec.at(0).y) ?
        painter.setRenderHint(QPainter::Antialiasing), painter.drawEllipse(QPoint(snakenodei.x + 12,snakenodei.y + 12),12,12):
        painter.drawRect(QRect(snakenodei.x,snakenodei.y,25,25));
@@ -196,7 +197,7 @@ void Widget::keyPressEvent(QKeyEvent *ev)
 {
   if(bugflag)
       return;
-
+  //ev-->event약자
   switch (ev->key())
   {
   case Qt::Key_W:
@@ -249,4 +250,3 @@ void Widget::on_help_clicked()
                   "\n\n\n\n");
     help->show();
 }
-
