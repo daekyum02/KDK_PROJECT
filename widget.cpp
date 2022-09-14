@@ -75,7 +75,7 @@ Widget::Widget(QWidget *parent)
     //start
     connect(ui->startbot,QPushButton::clicked,[=]()
     {
-        clicktime=0;
+        if(clicktime==0)
         timer->start(timerspeed);
         connect(timer,&QTimer::timeout,[=]()
         {
@@ -125,12 +125,13 @@ Widget::Widget(QWidget *parent)
                 //gameover변수 bool형
                 gameflag = true;
                 timer->stop();
+                clicktime=1;
             }
         });
     });
     //초기 score ui label에 출력
    ui->label->setText(QString("SCORE : %1").arg(score));
-}
+  }
 
 void Widget::GameOver()
 {
@@ -140,6 +141,7 @@ void Widget::GameOver()
       gameflag = true;
       timer->stop();
       return;
+      clicktime=1;
   }
   //스네이크가 스스로 몸에 닿았을 때
   for(int i = 1; i < snake.snakevec.size(); i++)
@@ -147,6 +149,7 @@ void Widget::GameOver()
       if(snake.snakevec.at(0).x == snake.snakevec.at(i).x && snake.snakevec.at(0).y == snake.snakevec.at(i).y)
       {
           gameflag = true, timer->stop();
+          clicktime=1;
       }
   }
 }
@@ -192,6 +195,7 @@ void Widget::paintEvent(QPaintEvent *)
       painter.drawText(QRect(240,300,500,500),"\nScore : ");
       ui->scorelabel->setFont(QFont("Sitka Heading Semibold",25));
       ui->scorelabel->setNum(score);
+      clicktime=1;
   }
   //game에 승리하면 gamewin이라는 문구 출력
   if(gamewin)
@@ -199,6 +203,7 @@ void Widget::paintEvent(QPaintEvent *)
       QFont font("Sitka Heading Semibold", 80, QFont::Bold, false);
       painter.setFont(font);
       painter.drawText(QRect(240, 200, 1000, 500), "You Win");
+      clicktime=1;
   }
 }
 //키보드 입력값 받아서 스네아크 이동시키기
@@ -269,5 +274,11 @@ void Widget::on_name_returnPressed()
     {
         usernameoutput[i] = usernameinput[i];
     }
+}
+
+
+void Widget::on_startbot_clicked()
+{
+    clicktime=0;
 }
 
