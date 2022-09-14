@@ -170,14 +170,14 @@ void Widget::paintEvent(QPaintEvent *)
   for(auto snakenodei : snake.snakevec)
       //삼항연산자를 통해 할당된 데이터 값을 기반으로 스네이크의 길이를 출력한다
       (snakenodei.x == snake.snakevec.at(0).x && snakenodei.y == snake.snakevec.at(0).y) ?
-       painter.setRenderHint(QPainter::Antialiasing), painter.drawEllipse(QPoint(snakenodei.x + 12,snakenodei.y + 12),12,12):
+        painter.setRenderHint(QPainter::Antialiasing), painter.drawEllipse(QPoint(snakenodei.x + 12,snakenodei.y + 12),12,12):
        painter.drawRect(QRect(snakenodei.x,snakenodei.y,25,25));
   bugflag = false;
   //벽출력
   QBrush brush3(QColor(128, 125, 0));
   painter.setBrush(brush3);
   for(int i = 0; i < 24; i++)
-        painter.drawRect(QRect(25 * 25, i * 25, 25, 25));
+      painter.drawRect(QRect(25 * 25, i * 25, 25, 25));
 
   //game에 패배하게되면 game over문구 출력
   if(gameflag)
